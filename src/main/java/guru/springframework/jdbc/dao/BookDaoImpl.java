@@ -3,10 +3,12 @@ package guru.springframework.jdbc.dao;
 import guru.springframework.jdbc.domain.Book;
 import guru.springframework.jdbc.repositories.AuthorRepository;
 import guru.springframework.jdbc.repositories.BookRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
+import java.util.List;
 
 @Component
 public class BookDaoImpl implements BookDao{
@@ -18,6 +20,26 @@ public class BookDaoImpl implements BookDao{
                        AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
+    }
+
+    @Override
+    public List<Book> findAllBooks(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public List<Book> findAllBooksSortByTitle(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public List<Book> findAllBooks(int pageSize, int offset) {
+        return null;
+    }
+
+    @Override
+    public List<Book> findAllBooks() {
+        return null;
     }
 
     @Override
