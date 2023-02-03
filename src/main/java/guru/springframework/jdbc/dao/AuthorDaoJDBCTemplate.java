@@ -16,6 +16,20 @@ public class AuthorDaoJDBCTemplate implements AuthorDao{
     }
 
     @Override
+    public List<Author> findAllByLastName(String lastName, Pageable pageable) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("SELECT * FROM author WHERE last_name = ? ");
+
+        if(pageable.getSort().getOrderFor("firstname") != null){
+            sb.append("order by first_name ").append(pageable.getSort().getOrderFor("firstname").getDirection().name());
+        }
+
+        sb.append(" limit ? offset ?");
+        return jdbcTemplate.query(sb.toString(),getAuthorMapper(),lastName,pageable.getPageSize(),pageable.getOffset());
+    }
+
+    @Override
     public List<Author> findAllByLastNameSortByFirstName(String lastName,Pageable pageable) {
         String sql = "SELECT * FROM author WHERE last_name = ? order by first_name " +
         pageable.getSort().getOrderFor("first_name")

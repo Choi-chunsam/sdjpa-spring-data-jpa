@@ -9,6 +9,7 @@ import java.util.List;
  * Created by jt on 8/22/21.
  */
 public interface AuthorDao {
+    List<Author> findAllByLastName(String lastName,Pageable pageable);
 
     List<Author> findAllByLastNameSortByFirstName(String lastName,Pageable pageable);
     Author getById(Long id);

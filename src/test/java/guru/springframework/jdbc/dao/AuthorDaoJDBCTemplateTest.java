@@ -1,4 +1,4 @@
-package guru.springframework.jdbc;
+package guru.springframework.jdbc.dao;
 
 
 import guru.springframework.jdbc.dao.AuthorDao;
@@ -37,11 +37,37 @@ public class AuthorDaoJDBCTemplateTest {
     }
 
     @Test
-    void findAllAuthorByLastName_SortByFirstName(){
+    void findAllAuthorByLastName(){
+        List<Author> authors = authorDao.findAllByLastName("Smith",
+                PageRequest.of(0,10));
+
+        assertThat(authors).isNotNull();
+        assertThat(authors.size()).isEqualTo(10);
+
+    }
+
+    @Test
+    void findAllAuthorByLastName_SortByFirstNameDesc(){
         List<Author> authors = authorDao.findAllByLastNameSortByFirstName("Smith",PageRequest.of(0,10,
                 Sort.by(Sort.Order.desc("first_name"))));
 
         assertThat(authors).isNotNull();
         assertThat(authors.size()).isEqualTo(10);
+    }
+    @Test
+    void findAllAuthorByLastName_SortByFirstNameAsc(){
+        List<Author> authors = authorDao.findAllByLastNameSortByFirstName("Smith",PageRequest.of(0,10,
+                Sort.by(Sort.Order.asc("first_name"))));
+
+        assertThat(authors).isNotNull();
+        assertThat(authors.size()).isEqualTo(10);
+    }
+
+    @Test
+    void findAllAuthorsByLastNameAllRecs() {
+        List<Author> authors = authorDao.findAllByLastName("Smith", PageRequest.of(0, 100));
+
+        assertThat(authors).isNotNull();
+        assertThat(authors.size()).isEqualTo(40);
     }
 }

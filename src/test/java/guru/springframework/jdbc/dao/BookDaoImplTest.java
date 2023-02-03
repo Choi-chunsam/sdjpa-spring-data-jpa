@@ -1,11 +1,6 @@
-package guru.springframework.jdbc;
+package guru.springframework.jdbc.dao;
 
-
-import guru.springframework.jdbc.dao.BookDao;
-import guru.springframework.jdbc.dao.BookDaoJDBCTemplate;
 import guru.springframework.jdbc.domain.Book;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -13,29 +8,20 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles(value = "local")
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ComponentScan(basePackages = "guru.springframework.jdbc.dao")
-public class BookDaoJDBCTemplateTest {//스프링에서 컴포넌트 만들지 않고 직접 해볼것이다.
+class BookDaoImplTest {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
-
     BookDao bookDao;
-
-    @BeforeEach
-    void setUp(){
-        bookDao = new BookDaoJDBCTemplate(jdbcTemplate);
-    }
 
     @Test
     void findAllBooksPage1_SortByTitle(){
@@ -43,7 +29,7 @@ public class BookDaoJDBCTemplateTest {//스프링에서 컴포넌트 만들지 �
                 Sort.by(Sort.Order.desc("title"))));
 
         assertThat(books).isNotNull();
-        assertThat(books.size()).isEqualTo(10);
+        assertThat(books.size()).isEqualTo(7);
     }
 
     @Test
@@ -114,4 +100,5 @@ public class BookDaoJDBCTemplateTest {//스프링에서 컴포넌트 만들지 �
 
         assertThat(book).isNotNull();
     }
+
 }
